@@ -8,8 +8,6 @@ var thetaLoc;
 var speed = 100;
 var direction = true;
 
-var uGlobalColor;
-
 init();
 
 function init()
@@ -120,11 +118,12 @@ function render()
 
     theta += (direction ? 0.1 : -0.1);
     gl.uniform1f(thetaLoc, theta);
-
-    if (theta % 360.0 == 0.0) {
-        var c1 = generateRandomNumber(), c2 = generateRandomNumber(), c3 = generateRandomNumber();
-        gl.fcolor
-    }
+    // console.log(Math.floor(theta));
+    // if (Math.floor(theta) % Math.floor((Math.PI*2)) == 0.0) {
+    //     var c1 = generateRandomNumber(), c2 = generateRandomNumber(), c3 = generateRandomNumber();
+    //     gl.fcolor = vec4(c1, c2, c3, 1.0);
+    //     //console.log(c1, c2, c3);
+    // }
 
     gl.drawArrays(gl.TRIANGLES, 0, 12);
 
