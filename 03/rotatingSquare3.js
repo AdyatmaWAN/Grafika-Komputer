@@ -9,7 +9,7 @@ var speed = 100;
 var direction = true;
 
 var colorLoc;
-var c1, c2, c3;
+var c1 = 1.0, c2 = 0.0, c3 = 0.0;
 
 init();
 
