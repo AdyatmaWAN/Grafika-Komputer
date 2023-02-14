@@ -114,16 +114,18 @@ function render()
         return (highlightedNumber);
     };
 
+    console.log(parseFloat(theta.toFixed(2)));
+
     gl.clear( gl.COLOR_BUFFER_BIT );
 
     theta += (direction ? 0.1 : -0.1);
     gl.uniform1f(thetaLoc, theta);
-    // console.log(Math.floor(theta));
-    // if (Math.floor(theta) % Math.floor((Math.PI*2)) == 0.0) {
-    //     var c1 = generateRandomNumber(), c2 = generateRandomNumber(), c3 = generateRandomNumber();
-    //     gl.fcolor = vec4(c1, c2, c3, 1.0);
-    //     //console.log(c1, c2, c3);
-    // }
+    if (parseFloat(theta.toFixed(2)) >= Math.PI * 2 || parseFloat(theta.toFixed(2)) <= Math.PI * -2) {
+        var c1 = generateRandomNumber(), c2 = generateRandomNumber(), c3 = generateRandomNumber();
+        gl.fcolor = vec4(c1, c2, c3, 1.0);
+        //console.log(c1, c2, c3);
+        theta = 0
+    }
 
     gl.drawArrays(gl.TRIANGLES, 0, 12);
 
