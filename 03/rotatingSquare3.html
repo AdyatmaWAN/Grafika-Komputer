@@ -46,12 +46,13 @@ main()
 #version 300 es
 precision mediump float;
 
-out vec4 fColor;
+uniform vec4 u_color;
+out vec4 fragColor;
 
 void
 main()
 {
-    fColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+    fragColor = u_color;
 }
 </script>
 

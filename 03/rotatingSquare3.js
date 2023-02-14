@@ -8,6 +8,9 @@ var thetaLoc;
 var speed = 100;
 var direction = true;
 
+var colorLoc;
+var c1, c2, c3;
+
 init();
 
 function init()
@@ -57,6 +60,8 @@ function init()
     gl.enableVertexAttribArray(positionLoc);
 
     thetaLoc = gl.getUniformLocation(program, "uTheta");
+
+    colorLoc = gl.getUniformLocation(program, "u_color");
 
     // Initialize event handlers
 
@@ -120,12 +125,15 @@ function render()
 
     theta += (direction ? 0.1 : -0.1);
     gl.uniform1f(thetaLoc, theta);
+
     if (parseFloat(theta.toFixed(2)) >= Math.PI * 2 || parseFloat(theta.toFixed(2)) <= Math.PI * -2) {
-        var c1 = generateRandomNumber(), c2 = generateRandomNumber(), c3 = generateRandomNumber();
-        gl.fcolor = vec4(c1, c2, c3, 1.0);
-        //console.log(c1, c2, c3);
-        theta = 0
+        c1 = generateRandomNumber(); c2 = generateRandomNumber(); c3 = generateRandomNumber();
+        c1 = parseFloat(c1.toFixed(2));
+        c2 = parseFloat(c2.toFixed(2));
+        c3 = parseFloat(c3.toFixed(2));
+        theta = 0.0
     }
+    gl.uniform4f(colorLoc, c1, c2, c3, 1.0);
 
     gl.drawArrays(gl.TRIANGLES, 0, 12);
 
