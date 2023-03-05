@@ -10,9 +10,8 @@ var direction = true;
 
 init();
 
-function init()
-{
-    var canvas = document.getElementById( "gl-canvas");
+function init() {
+    var canvas = document.getElementById("gl-canvas");
 
     gl = canvas.getContext('webgl2');
     if (!gl) alert("WebGL 2.0 isn't available");
@@ -29,9 +28,9 @@ function init()
     gl.useProgram(program);
 
     var vertices = [
-        vec2(0,  1),
-        vec2(-1,  0),
-        vec2(1,  0),
+        vec2(0, 1),
+        vec2(-1, 0),
+        vec2(1, 0),
         vec2(0, -1)
     ];
 
@@ -44,52 +43,51 @@ function init()
 
     // Associate out shader variables with our data buffer
 
-    var positionLoc = gl.getAttribLocation( program, "aPosition");
+    var positionLoc = gl.getAttribLocation(program, "aPosition");
     gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(positionLoc);
 
-    thetaLoc = gl.getUniformLocation( program, "uTheta" );
+    thetaLoc = gl.getUniformLocation(program, "uTheta");
 
     // Initialize event handlers
     document.getElementById("Direction").onclick = function () {
         direction = !direction;
     };
 
-    document.getElementById("Controls" ).onclick = function(event) {
-        switch(event.target.index) {
-          case 0:
-            direction = !direction;
-            break;
-         case 1:
-            delay /= 2.0;
-            break;
-         case 2:
-            delay *= 2.0;
-            break;
-       }
+    document.getElementById("Controls").onclick = function (event) {
+        switch (event.target.index) {
+            case 0:
+                direction = !direction;
+                break;
+            case 1:
+                delay /= 2.0;
+                break;
+            case 2:
+                delay *= 2.0;
+                break;
+        }
     };
 
-    window.onkeydown = function(event) {
+    window.onkeydown = function (event) {
         var key = String.fromCharCode(event.keyCode);
-        switch(key) {
-          case '1':
-            direction = !direction;
-            break;
+        switch (key) {
+            case '1':
+                direction = !direction;
+                break;
 
-          case '2':
-            delay /= 2.0;
-            break;
+            case '2':
+                delay /= 2.0;
+                break;
 
-          case '3':
-            delay *= 2.0;
-            break;
+            case '3':
+                delay *= 2.0;
+                break;
         }
     };
     render();
-};
+}
 
-function render()
-{
+function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     theta += (direction ? 0.1 : -0.1);
@@ -98,6 +96,8 @@ function render()
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
     setTimeout(
-        function (){requestAnimationFrame(render);}, delay
+        function () {
+            requestAnimationFrame(render);
+        }, delay
     );
 }

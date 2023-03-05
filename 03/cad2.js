@@ -3,7 +3,7 @@
 var canvas;
 var gl;
 
-var maxNumPositions  = 200;
+var maxNumPositions = 200;
 var index = 0;
 
 var cindex = 0;
@@ -33,28 +33,28 @@ function init() {
 
     var m = document.getElementById("mymenu");
 
-    m.addEventListener("click", function() {
-       cindex = m.selectedIndex;
-        });
-
-    var a = document.getElementById("Button1")
-    a.addEventListener("click", function(){
-    numPolygons++;
-    numPositions[numPolygons] = 0;
-    start[numPolygons] = index;
-    render();
+    m.addEventListener("click", function () {
+        cindex = m.selectedIndex;
     });
 
-    canvas.addEventListener("mousedown", function(event){
-        t  = vec2(2*event.clientX/canvas.width-1,
-           2*(canvas.height-event.clientY)/canvas.height-1);
-        gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
-        gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t));
+    var a = document.getElementById("Button1")
+    a.addEventListener("click", function () {
+        numPolygons++;
+        numPositions[numPolygons] = 0;
+        start[numPolygons] = index;
+        render();
+    });
+
+    canvas.addEventListener("mousedown", function (event) {
+        t = vec2(2 * event.clientX / canvas.width - 1,
+            2 * (canvas.height - event.clientY) / canvas.height - 1);
+        gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 8 * index, flatten(t));
 
         tt = vec4(colors[cindex]);
 
-        gl.bindBuffer( gl.ARRAY_BUFFER, cBufferId );
-        gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(tt));
+        gl.bindBuffer(gl.ARRAY_BUFFER, cBufferId);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 16 * index, flatten(tt));
 
         numPositions[numPolygons]++;
         index++;
@@ -71,14 +71,14 @@ function init() {
 
     var bufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
-    gl.bufferData(gl.ARRAY_BUFFER, 8*maxNumPositions, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, 8 * maxNumPositions, gl.STATIC_DRAW);
     var postionLoc = gl.getAttribLocation(program, "aPosition");
     gl.vertexAttribPointer(postionLoc, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(postionLoc);
 
     var cBufferId = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, cBufferId);
-    gl.bufferData(gl.ARRAY_BUFFER, 16*maxNumPositions, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, 16 * maxNumPositions, gl.STATIC_DRAW);
     var colorLoc = gl.getAttribLocation(program, "aColor");
     gl.vertexAttribPointer(colorLoc, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(colorLoc);
@@ -86,9 +86,9 @@ function init() {
 
 function render() {
 
-    gl.clear( gl.COLOR_BUFFER_BIT );
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
-    for(var i=0; i<numPolygons; i++) {
-        gl.drawArrays( gl.TRIANGLE_FAN, start[i], numPositions[i] );
+    for (var i = 0; i < numPolygons; i++) {
+        gl.drawArrays(gl.TRIANGLE_FAN, start[i], numPositions[i]);
     }
 }

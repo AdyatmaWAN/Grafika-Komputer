@@ -5,13 +5,13 @@ var gl;
 
 
 var maxNumTriangles = 200;
-var maxNumPositions  = 3*maxNumTriangles;
+var maxNumPositions = 3 * maxNumTriangles;
 var index = 0;
 
 var colors = [
 
     vec4(0.0, 0.0, 0.0, 1.0),  // black
-    vec4(1.0, 0.0, 0.0, 1.0 ),  // red
+    vec4(1.0, 0.0, 0.0, 1.0),  // red
     vec4(1.0, 1.0, 0.0, 1.0),  // yellow
     vec4(0.0, 1.0, 0.0, 1.0),  // green
     vec4(0.0, 0.0, 1.0, 1.0),  // blue
@@ -41,7 +41,7 @@ function init() {
 
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, 8*maxNumPositions, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, 8 * maxNumPositions, gl.STATIC_DRAW);
 
     var positionLoc = gl.getAttribLocation(program, "aPosition");
     gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0);
@@ -49,22 +49,22 @@ function init() {
 
     var cBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, 16*maxNumPositions, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, 16 * maxNumPositions, gl.STATIC_DRAW);
 
-    var colorLoc = gl.getAttribLocation( program, "aColor");
+    var colorLoc = gl.getAttribLocation(program, "aColor");
     gl.vertexAttribPointer(colorLoc, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(colorLoc);
 
-    canvas.addEventListener("click", function(event){
+    canvas.addEventListener("click", function (event) {
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-        var t = vec2(2*event.clientX/canvas.width-1,
-             2*(canvas.height-event.clientY)/canvas.height-1);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t));
+        var t = vec2(2 * event.clientX / canvas.width - 1,
+            2 * (canvas.height - event.clientY) / canvas.height - 1);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 8 * index, flatten(t));
 
-        gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer);
-        t = vec4(colors[index%7]);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 16*index, flatten(t));
+        gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+        t = vec4(colors[index % 7]);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 16 * index, flatten(t));
         index++;
     });
 

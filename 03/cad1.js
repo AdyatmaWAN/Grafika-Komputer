@@ -3,10 +3,14 @@
 var canvas;
 var gl;
 
-
 var maxNumTriangles = 200;
 var maxNumPositions = 3 * maxNumTriangles;
 var index = 0;
+var first = true;
+
+var t = [];
+
+var cIndex = 0;
 
 var colors = [
     vec4(0.0, 0.0, 0.0, 1.0),  // black
@@ -26,21 +30,9 @@ function init() {
     gl = canvas.getContext('webgl2');
     if (!gl) alert("WebGL 2.0 isn't available");
 
-    canvas.addEventListener("mousedown", function (event) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-        var t = vec2(2 * event.clientX / canvas.width - 1,
-            2 * (canvas.height - event.clientY) / canvas.height - 1);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 8 * index, flatten(t));
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-        t = vec4(colors[(index) % 7]);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 16 * index, flatten(t));
-        index++;
-    });
-
-
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(0.5, 0.5, 0.5, 1.0);
+    gl.clearColor(0.8, 0.8, 0.8, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
 
     //
@@ -66,16 +58,41 @@ function init() {
     gl.vertexAttribPointer(colorLoc, 4, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(colorLoc);
 
-    render();
+    var m = document.getElementById("mymenu");
 
+    m.addEventListener("click", function () {
+        cIndex = m.selectedIndex;
+    });
+
+
+    canvas.addEventListener("mousedown", function (event) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+        if (first) {
+            first = false;
+            gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer)
+            t[0] = vec2(2 * event.clientX / canvas.width - 1,
+                2 * (canvas.height - event.clientY) / canvas.height - 1);
+        } else {
+            first = true;
+            t[2] = vec2(2 * event.clientX / canvas.width - 1,
+                2 * (canvas.height - event.clientY) / canvas.height - 1);
+            t[1] = vec2(t[0][0], t[2][1]);
+            t[3] = vec2(t[2][0], t[0][1]);
+            for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(t[i]));
+            index += 4;
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+            var tt = vec4(colors[cIndex]);
+            for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index - 4 + i), flatten(tt));
+        }
+    });
+    render();
 }
 
 
 function render() {
-
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.POINTS, 0, index);
-
+    for (var i = 0; i < index; i += 4)
+        gl.drawArrays(gl.TRIANGLE_FAN, i, 4);
     requestAnimationFrame(render);
-
 }

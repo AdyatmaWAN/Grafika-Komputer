@@ -13,7 +13,7 @@
     <option value="2">Spin Slower</option>
 </select>
 
-<canvas id="gl-canvas" width="512" height="512"> </canvas>
+<canvas height="512" id="gl-canvas" width="512"></canvas>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 #version 300 es
@@ -31,6 +31,7 @@ void main()
     gl_Position.z = 0.0;
     gl_Position.w = 1.0;
 }
+
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
@@ -43,6 +44,7 @@ void main()
 {
     fColor = vec4( 1.0, 0.0, 0.0, 1.0 );
 }
+
 </script>
 
 <script src="../Common/initShaders.js"></script>

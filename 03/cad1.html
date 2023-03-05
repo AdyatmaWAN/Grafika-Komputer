@@ -1,19 +1,19 @@
 <html>
 
 <div>
-<canvas id="gl-canvas" width="512"" height="512"</canvas>
+    <canvas id="gl-canvas" width="512"></canvas>
 </div>
 
 <div>
-<select id = "mymenu" size = "7">
-    <option value = "0">Black</option>
-    <option value = "1">Red</option>
-    <option value = "2">Yellow</option>
-    <option value = "3">Green</option>
-    <option value = "4">Blue</option>
-    <option value = "5">Magenta</option>
-    <option value = "6">Cyan</option>
-</select>
+    <select id="mymenu" size="7">
+        <option value="0">Black</option>
+        <option value="1">Red</option>
+        <option value="2">Yellow</option>
+        <option value="3">Green</option>
+        <option value="4">Blue</option>
+        <option value="5">Magenta</option>
+        <option value="6">Cyan</option>
+    </select>
 </div>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -29,6 +29,7 @@ void main()
     gl_Position = aPosition;
     vColor = aColor;
 }
+
 </script>
 
 <script id="fragment-shader" type="x-shader/x-fragment">
@@ -43,11 +44,8 @@ void main()
 {
     fColor = vColor;
 }
+
 </script>
-
-
-
-
 
 <script src="../Common/initShaders.js"></script>
 <script src="../Common/MVnew.js"></script>
