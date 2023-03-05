@@ -84,7 +84,7 @@ function init() {
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
         console.log(event.clientX, event.clientY);
         //kalibrasi posisi klik mouse untuk layar 1920:1080 pada window chrome fullscreen
-        x = event.clientX-606;
+        x = event.clientX-615;
         y = event.clientY-113;
         if (first) {
             first = false;
