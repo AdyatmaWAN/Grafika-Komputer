@@ -119,8 +119,6 @@ function render()
         return (highlightedNumber);
     };
 
-    console.log(parseFloat(theta.toFixed(2)));
-
     gl.clear( gl.COLOR_BUFFER_BIT );
 
     theta += (direction ? 0.1 : -0.1);
