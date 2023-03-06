@@ -29,7 +29,7 @@ var tmp = [];
 
 var animate = false;
 
-var mode = 0;
+var mode = 2;
 
 var r,g,b,a;
 
@@ -100,61 +100,136 @@ function init() {
         y = event.clientY - rect.top;
         console.log("x: " + x + " y: " + y)
 
+        var point = vec2(2 * x / canvas.width - 1,
+            2 * (canvas.height - y) / canvas.height - 1);
 
-
-        // square
         if (first) {
             first = false;
             gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer)
-            t[0] = vec2(2 * x / canvas.width - 1,
-                2 * (canvas.height - y) / canvas.height - 1);
-        } else {
-            first = true;
-            t[2] = vec2(2 * x / canvas.width - 1,
-                2 * (canvas.height - y) / canvas.height - 1);
-            t[1] = vec2(t[0][0], t[2][1]);
-            t[3] = vec2(t[2][0], t[0][1]);
-            for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(t[i]));
-            index += 4;
+            tmp[0] = point;
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-            var tt = colors;
-            for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index - 4 + i), flatten(tt));
+        } else {
+            //if else sesuai mode
+            if (mode == 1) {
+                tmp.push(point);
+            } else if (mode == 2) {
+                tmp.push(point);
+                for (var i = 0; i < 2; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(tmp[i]));
+                gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                var tt = colors;
+                for (var i = 0; i < 2; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index + i), flatten(tt));
+                index += 2;
+                tmp = [];
+                shapes.push(2);
+
+            } else if (mode == 3) {
+                if (tmp.length == 2) {
+                    tmp.push(point);
+                    for (var i = 0; i < 3; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(tmp[i]));
+                    gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                    var tt = colors;
+                    for (var i = 0; i < 3; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index + i), flatten(tt));
+                    index += 3;
+                    tmp = [];
+                    shapes.push(3);
+                } else {
+                    tmp.push(point);
+                }
+
+            } else if (mode == 4) {
+                if (tmp.length == 3) {
+                    tmp.push(point);
+                    for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(tmp[i]));
+                    gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+                    var tt = colors;
+                    for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index + i), flatten(tt));
+                    index += 4;
+                    tmp = [];
+                    shapes.push(4)
+                } else {
+                    tmp.push(point);
+                }
+
+            } else if (mode == 0) {
+
+            }
         }
+
+
+        // square
+        // if (first) {
+        //     first = false;
+        //     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer)
+        //     t[0] = vec2(2 * x / canvas.width - 1,
+        //         2 * (canvas.height - y) / canvas.height - 1);
+        // } else {
+        //     first = true;
+        //     t[2] = vec2(2 * x / canvas.width - 1,
+        //         2 * (canvas.height - y) / canvas.height - 1);
+        //     t[1] = vec2(t[0][0], t[2][1]);
+        //     t[3] = vec2(t[2][0], t[0][1]);
+        //     for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 8 * (index + i), flatten(t[i]));
+        //     index += 4;
+        //
+        //     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+        //     var tt = colors;
+        //     for (var i = 0; i < 4; i++) gl.bufferSubData(gl.ARRAY_BUFFER, 16 * (index - 4 + i), flatten(tt));
+        // }
     });
     render();
 }
 
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    for (var i = 0; i < index; i += 4)
-        gl.drawArrays(gl.TRIANGLE_FAN, i, 4);
+    var count = 0;
+    for (var i = 0; i < shapes.length; i += 1) {
+        if (shapes[i] == 3) {
+            gl.drawArrays(gl.TRIANGLES, count, 3);
+            count+= 3;
+        } else if (shapes[i] == 4) {
+            gl.drawArrays(gl.TRIANGLE_FAN, count, 4);
+            count+= 4;
+        } else if (shapes[i] == 2) {
+            gl.drawArrays(gl.LINES, count, 2);
+            count+= 2;
+        }
+    }
     requestAnimationFrame(render);
 }
 
 document.getElementById("line").onclick = function () {
     mode = 2;
     animate = false;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("triangle").onclick = function () {
     mode = 3;
     animate = false;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("square").onclick = function () {
     mode = 4;
     animate = false;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("polygon").onclick = function () {
     mode = 1;
     animate = false;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("other").onclick = function () {
     mode = 4;
     animate = false;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("clear").onclick = function () {
@@ -162,11 +237,14 @@ document.getElementById("clear").onclick = function () {
     first = true;
     gl.clear(gl.COLOR_BUFFER_BIT);
     animate = false;
+    tmp = [];
 }
 
 document.getElementById("animate").onclick = function () {
     animate = true;
     mode = 99;
+    tmp = [];
+    first = true;
 }
 
 document.getElementById("stop").onclick = function () {
