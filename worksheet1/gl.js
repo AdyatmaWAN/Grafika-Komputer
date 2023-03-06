@@ -22,6 +22,9 @@ Coloris({
         colors = vec4(r,g,b,a);
     }
 });
+var clickX = 0;
+
+var clickY = 0;
 
 var xCal = 1;
 
@@ -180,12 +183,22 @@ function init() {
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
 
         const rect = canvas.getBoundingClientRect();
-        x = (event.clientX - rect.left) ;
-        y = (event.clientY - rect.top) ;
+        x = (event.clientX - rect.left);
+        y = (event.clientY - rect.top);
+
         console.log("x: " + x + " y: " + y)
 
-        var point = vec2(2 * x / canvas.width - 1,
-            2 * (canvas.height - y) / canvas.height - 1);
+        xCal = 2 * x / canvas.width - 1;
+        yCal = 2 * (canvas.height - y) / canvas.height - 1;
+
+        console.log("xCal: " + xCal + " yCal: " + yCal)
+
+        clickX = xCal * Math.cos(theta) + yCal * Math.sin(theta);
+        clickY = -xCal * Math.sin(theta) + yCal * Math.cos(theta);
+
+        console.log("clickX: " + clickX + " clickY: " + clickY)
+
+        var point = vec2(clickX, clickY);
 
         if (first) {
             if (mode != 99) {
@@ -250,6 +263,7 @@ function render() {
 
     if (animate) {
         theta += 0.1;
+        console.log("theta: " + theta);
         gl.uniform1f(thetaLoc, theta);
 
         // var s = Math.sin(theta);
