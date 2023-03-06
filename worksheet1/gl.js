@@ -23,16 +23,28 @@ Coloris({
     }
 });
 
+var shapes = [];
+
+var tmp = [];
+
+var animate = false;
+
+var mode = 0;
+
 var r,g,b,a;
 
 var x,y;
 
 var canvas;
+
 var gl;
 
 var maxNumTriangles = 200;
+
 var maxNumPositions = 3 * maxNumTriangles;
+
 var index = 0;
+
 var first = true;
 
 var t = [];
@@ -82,10 +94,15 @@ function init() {
 
     canvas.addEventListener("mousedown", function (event) {
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-        console.log(event.clientX, event.clientY);
-        //kalibrasi posisi klik mouse untuk layar 1920:1080 pada window chrome fullscreen
-        x = event.clientX-615;
-        y = event.clientY-113;
+
+        const rect = canvas.getBoundingClientRect();
+        x = event.clientX - rect.left;
+        y = event.clientY - rect.top;
+        console.log("x: " + x + " y: " + y)
+
+
+
+        // square
         if (first) {
             first = false;
             gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer)
@@ -108,15 +125,55 @@ function init() {
     render();
 }
 
-document.getElementById("clear").onclick = function () {
-    index = 0;
-    first = true;
-    gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
 function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
     for (var i = 0; i < index; i += 4)
         gl.drawArrays(gl.TRIANGLE_FAN, i, 4);
     requestAnimationFrame(render);
 }
+
+document.getElementById("line").onclick = function () {
+    mode = 2;
+    animate = false;
+}
+
+document.getElementById("triangle").onclick = function () {
+    mode = 3;
+    animate = false;
+}
+
+document.getElementById("square").onclick = function () {
+    mode = 4;
+    animate = false;
+}
+
+document.getElementById("polygon").onclick = function () {
+    mode = 1;
+    animate = false;
+}
+
+document.getElementById("other").onclick = function () {
+    mode = 4;
+    animate = false;
+}
+
+document.getElementById("clear").onclick = function () {
+    index = 0;
+    first = true;
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    animate = false;
+}
+
+document.getElementById("animate").onclick = function () {
+    animate = true;
+    mode = 99;
+}
+
+document.getElementById("stop").onclick = function () {
+    console.log("stop");
+    if (mode == 1) {
+        //stuff
+    }
+}
+
+
