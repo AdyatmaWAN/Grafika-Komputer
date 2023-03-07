@@ -1,3 +1,4 @@
+//all the variable used in the program
 var clickX = 0;
 
 var clickY = 0;

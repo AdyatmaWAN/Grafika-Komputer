@@ -1,4 +1,5 @@
 function createFourRandomPoints(point) {
+    //initiate the array for the points using rng
     for (var i = 0; i < 4; i++) {
         var k = generateRandomNumber();
         var l = generateRandomNumber();
@@ -7,7 +8,7 @@ function createFourRandomPoints(point) {
     return tmp;
 }
 
-function createPlusShape(point) {
+function createPlusShape(point) { //push the points for the plus shape
     tmp.push(point);
     tmp.push(vec2(point[0] - 0.025, point[1] + 0.075));
     tmp.push(vec2(point[0] + 0.025, point[1] + 0.075));
@@ -26,7 +27,7 @@ function createPlusShape(point) {
     return tmp;
 }
 
-function createHexagon(point) {
+function createHexagon(point) { //push the points for the hexagon
     tmp.push(point);
     tmp.push(vec2(point[0], point[1] + 0.1));
     tmp.push(vec2(point[0] + 0.07, point[1] + 0.070))
@@ -40,7 +41,7 @@ function createHexagon(point) {
     return tmp;
 }
 
-function createFourPointedStar(point) {
+function createFourPointedStar(point) { //push the points for the four pointed star
     tmp.push(point);
     tmp.push(vec2(point[0], point[1] + 0.1));
     tmp.push(vec2(point[0] + 0.025, point[1] + 0.025));
@@ -54,7 +55,7 @@ function createFourPointedStar(point) {
     return tmp;
 }
 
-function createFivePointedStar(point) {
+function createFivePointedStar(point) { //push the points for the five pointed star
     tmp.push(point);
     tmp.push(vec2(point[0], point[1] + 0.1));
     tmp.push(vec2(point[0] + 0.023, point[1] + 0.028));
@@ -70,7 +71,7 @@ function createFivePointedStar(point) {
     return tmp;
 }
 
-function createCompass(point) {
+function createCompass(point) { // push the points for the compass
     tmp.push(point);
     tmp.push(vec2(point[0], point[1] + 0.1));
     tmp.push(vec2(point[0] + 0.025, point[1] + 0.05));
