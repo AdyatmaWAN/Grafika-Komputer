@@ -1,0 +1,13 @@
+<h1 align="center"> WebGL2 </h1> <br>
+<p align="center">
+  <a >
+    <img alt="WebGL" title="WebGL" src="https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg" width="450">
+  </a>
+</p>
+
+<p align="center">
+  WebGL2 for Computer Graphic 2022/2023 Class Projects
+</p>
+<p align="center">
+    by Adyatma Wijaksara Aryaputra Nugraha Yudha
+</p>

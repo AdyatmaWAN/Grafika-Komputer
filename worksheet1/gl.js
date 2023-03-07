@@ -131,7 +131,6 @@ function init() {
         first = true;
     }
 
-//todo: add stuff
     document.getElementById("random-square").onclick = function () {
         mode = 5;
         animate = false;
