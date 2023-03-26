@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../Common/layout.css">
+<title>Transform Letter F - 3D</title>
+
+<!-- Modification from transform-letterF-3D.html/JS -->
+<!-- now we use perspective viewing -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec4 a_color;
+
+uniform mat4 u_matrix;
+
+out vec4 v_color;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_matrix * a_position;
+
+  // Pass the color to the fragment shader.
+  v_color = a_color;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+// Passed in from the vertex shader.
+in vec4 v_color;
+out vec4 FragColor;
+
+void main() {
+   FragColor = v_color;
+}
+</script>
+
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVNew.js"></script>
+<script type="text/javascript" src="perspective-letterF-3D.js"></script>
+
+
+</head>
+
+<body> 
+
+<div class="header">
+	<h2> Letter F - Perspective View </h2>
+</div>
+
+<div class="row">
+    <div class="leftcolumn">
+        <canvas id="gl-canvas" width="800" height="600">
+        Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+
+<div class="rightcolumn" id="slidercontainer">
+
+		FOV <input id="sliderFOV" type="range" min="1" max="179" step="1" value="60" /> <span id="FOVvalue"> </span> <br>
+		<p></p>
+		X <input id="sliderX" type="range" min="-200" max="200" step="1" value="300" /> <span id="Xvalue"> </span> <br>
+		Y <input id="sliderY" type="range" min="-200" max="200" step="1" value="150" /> <span id="Yvalue"> </span> <br>
+		Z <input id="sliderZ" type="range" min="-1000" max="0" step="1" value="-360" /> <span id="Zvalue"> </span> <br>
+		<p></p>
+
+		Angle X<input id="sliderAX" type="range" max="360"  value="190" /> <span id="AXvalue"> </span> <br>
+		Angle Y<input id="sliderAY" type="range" max="360"  value="40" /> <span id="AYvalue"> </span> <br>
+		Angle Z<input id="sliderAZ" type="range" max="360"  value="320" /> <span id="AZvalue"> </span><br>
+		<p></p>
+
+		Scale-X <input id="sliderscaleX" type="range" min="1" max="5" step="0.1" value="1.0" /> <span id="scaleX"> </span> <br>
+		Scale-Y <input id="sliderscaleY" type="range" min="1" max="5" step="0.1" value="1.0" /> <span id="scaleY"> </span> <br>
+		Scale-Z <input id="sliderscaleZ" type="range" min="1" max="5" step="0.1" value="1.0" /> <span id="scaleZ"> </span> <br>
+	</div>
+</div>
+
+
+<div class="footer">
+	<h2>Grafika Komputer - Fasilkom UI</h2>
+</div>
+
+</body>
+</html>

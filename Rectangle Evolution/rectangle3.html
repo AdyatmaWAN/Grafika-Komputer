@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Common/layout.css">
+<title>Moving Rectangle</title>
+
+<!-- Modification from rectangles.html/JS to setup rectangle so it can translate X and/or Y according to slider's  -->
+<!-- Modify vertex shader to perform translation by adding u_translation uniform variable -->
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+
+in vec2 vPosition;
+uniform vec2 u_resolution;
+uniform vec2 u_translation;
+
+void
+main()
+{
+	vec2 position = vPosition + u_translation;
+	
+// convert the position from pixels to 0.0 to 1.0
+    vec2 zeroToOne = position / u_resolution;
+	
+	// convert from 0->1 to 0->2
+    vec2 zeroToTwo = zeroToOne * 2.0;
+	
+	// convert from 0->2 to -1->+1 (clipspace)
+    vec2 clipSpace = zeroToTwo - 1.0;
+	
+	gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+
+out vec4 FragColor;
+uniform vec4 u_color;
+
+void
+main()
+{
+    FragColor = u_color;
+}
+</script>
+
+<script src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="rectangle3.js"></script>
+</head>
+
+<body> 
+
+    <div class="header">
+        <h2>Moving Rectangle</h2>
+      </div>
+            
+      <div class = "row">
+          <div class="leftcolumn">
+              <canvas id="gl-canvas" width="800" height="600">
+              Oops ... your browser doesn't support the HTML5 canvas element
+              </canvas>
+          </div>
+          <div class="rightcolumn">
+      
+               X <input id="sliderX" type="range" min="0" max="800" step="1" value="0" /> 
+              <span id="Xvalue"> </span>
+              <p></p>
+              Y <input id="sliderY" type="range" min="0" max="600" step="1" value="0" /> 
+              <span id="Yvalue"> </span>
+              
+          </div>
+      </div>
+      <div class="footer">
+          <h2>Grafika Komputer - Fasilkom UI</h2>
+      </div>
+</body>
+</html>

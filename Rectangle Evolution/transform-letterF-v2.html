@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Common/layout.css">
+<title>Transform Letter F - Version 2</title>
+
+<!-- Modification from transform-letterF.html/JS -->
+<!-- now we change vertex shader's 'clipspace' to 'projection' (using projection matrix to convert coordinat system) -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec2 vPosition;
+
+uniform mat3 u_matrix;
+
+
+void
+main()
+{
+  // Multiply the position by the matrix.
+  gl_Position = vec4((u_matrix * vec3(vPosition, 1)).xy, 0, 1);
+
+}
+
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+out vec4 FragColor;
+uniform vec4 u_color;
+
+void
+main()
+{
+    FragColor = u_color;
+}
+</script>
+
+<script src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="transform-letterF-v2.js"></script>
+</head>
+
+<body> 
+
+	<div class="header">
+		<h2>Letter F with Transformation using Transformation Matrix </h2>
+	</div>
+		  
+	<div class="row">
+		<div class="leftcolumn">
+			<canvas id="gl-canvas" width="800" height="600">
+			Oops ... your browser doesn't support the HTML5 canvas element
+			</canvas>
+		</div>
+		<div id="slidercontainer" class="rightcolumn">
+			<div>
+				X <input id="sliderX" type="range" min="0" max="800" step="1" value="0" /> <span id="Xvalue"> </span>
+				<br> 
+				Y <input id="sliderY" type="range" min="0" max="600" step="1" value="0" /> <span id="Yvalue"> </span>
+				<br> 
+				Angle <input id="sliderA" type="range" max="360"  value="0" /> <span id="Avalue"> </span>
+				<br>
+				Scale-X <input id="sliderscaleX" type="range" min="1" max="5" step="0.1" value="1.0" /> <span id="scaleX"> </span>
+				<br>
+				Scale-Y <input id="sliderscaleY" type="range" min="1" max="5" step="0.1" value="1.0" /> <span id="scaleY"> </span>
+			</div>
+		</div>
+	</div>
+	<div class="footer">
+		<h2>Grafika Komputer - Fasilkom UI</h2>
+	</div>
+	
+</body>
+</html>

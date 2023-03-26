@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../../Common/layout.css">
+<title>Transform Letter F - 3D</title>
+
+<!-- Modification from transform-letterF-v2.html/JS -->
+<!-- now we move to 3D -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec4 a_color;
+
+uniform mat4 u_matrix;
+
+out vec4 v_color;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_matrix * a_position;
+
+  // Pass the color to the fragment shader.
+  v_color = a_color;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+// Passed in from the vertex shader.
+uniform vec4 v_color;
+out vec4 FragColor;
+void main() {
+   FragColor = v_color;
+}
+</script>
+
+<script src="../../Common/initShaders.js"></script>
+<script type="text/javascript" src="../../Common/MVnew.js"></script>
+<script type="text/javascript" src="transform-letterF-3D.js"></script>
+
+
+</head>
+
+<body> 
+	<div class="header">
+		<h2>3D Letter F with Transformation using Transformation Matrix </h2>
+	</div>
+	<div>
+			<canvas id="gl-canvas" width="800" height="600">
+			Oops ... your browser doesn't support the HTML5 canvas element
+			</canvas>
+	</div>
+	<div class="footer">
+		<h2>Grafika Komputer - Fasilkom UI</h2>
+	</div>
+
+</body>
+</html>

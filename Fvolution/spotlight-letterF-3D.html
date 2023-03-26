@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../Common/layout.css">
+<title>Letter F with Spot Lighting</title>
+
+<!-- Modification from pointlight-letterF-3D.html/JS -->
+<!-- now we use point lighting with shininess factor -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec3 a_normal; //change color to normal vector
+
+uniform vec3 u_lightWorldPosition;
+uniform vec3 u_viewWorldPosition;
+
+uniform mat4 u_world;
+uniform mat4 u_worldViewProjection;
+uniform mat4 u_worldInverseTranspose;
+
+out vec3 v_normal;
+
+out vec3 v_surfaceToLight;
+out vec3 v_surfaceToView;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_worldViewProjection * a_position;
+
+  // orient the normals and pass to the fragment shader
+  v_normal = mat3(u_worldInverseTranspose) * a_normal;
+
+  // compute the world position of the surfoace
+  vec3 surfaceWorldPosition = (u_world * a_position).xyz;
+
+  // compute the vector of the surface to the light
+  // and pass it to the fragment shader
+  v_surfaceToLight = u_lightWorldPosition - surfaceWorldPosition;
+
+  // compute the vector of the surface to the view/camera
+  // and pass it to the fragment shader
+  v_surfaceToView = u_viewWorldPosition - surfaceWorldPosition;
+}</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+// Passed in from the vertex shader.
+in vec3 v_normal;
+
+in vec3 v_surfaceToLight;
+in vec3 v_surfaceToView;
+
+uniform vec4 u_color;
+uniform float u_shininess;
+uniform vec3 u_lightDirection;
+uniform float u_innerLimit;          // in dot space
+uniform float u_outerLimit;          // in dot space
+
+out vec4 FragColor;
+
+void main() {
+  // because v_normal is a varying it's interpolated
+  // we it will not be a uint vector. Normalizing it
+  // will make it a unit vector again
+  vec3 normal = normalize(v_normal);
+
+  vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
+  vec3 surfaceToViewDirection = normalize(v_surfaceToView);
+  vec3 halfVector = normalize(surfaceToLightDirection + surfaceToViewDirection);
+
+  float dotFromDirection = dot(surfaceToLightDirection,
+                               -u_lightDirection);
+  float inLight = smoothstep(u_outerLimit, u_innerLimit, dotFromDirection);
+  float light = inLight * dot(normal, surfaceToLightDirection);
+  float specular = inLight * pow(dot(normal, halfVector), u_shininess);
+
+  FragColor = u_color;
+
+  // Lets multiply just the color portion (not the alpha)
+  // by the light
+  FragColor.rgb *= light;
+
+  // Just add in the specular
+  FragColor.rgb += specular;
+}
+</script>
+
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVNew.js"></script>
+<script type="text/javascript" src="m4.js"></script>
+<script type="text/javascript" src="spotlight-letterF-3D.js"></script>
+
+
+</head>
+
+<body> 
+  <div class="header">
+    <h2> Letter F - Spot Lighting </h2>
+  </div>
+  
+  <div class="row">
+    <div class="leftcolumn">
+        <canvas id="gl-canvas" width="800" height="600">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+
+    <div class="rightcolumn" id="slidercontainer">
+
+      F Rotation <input id="sliderCam" type="range" min="-360" max="360" step="1" value="0" /> <span id="Cameravalue"> </span> <br>
+      <p></p>
+      Light rotation X <input id="sliderXRotation" type="range" min="-2" max="2" step="0.001" value="0" /> <span id="XRotationvalue"> </span> <br>
+      Light rotation Y <input id="sliderYRotation" type="range" min="-2" max="2" step="0.001" value="0" /> <span id="YRotationvalue"> </span> <br>
+      Inner Limit <input id="sliderInner" type="range" min="0" max="180" step="1" value="10" /> <span id="Innervalue"> </span> <br>
+      Outer Limit <input id="sliderOuter" type="range" min="0" max="180" step="1" value="20" /> <span id="Outervalue"> </span> <br>
+
+    </div>
+    
+  </div>
+
+  <div class="footer">
+    <h2>Grafika Komputer - Fasilkom UI</h2>
+  </div>
+ 
+</body>
+</html>

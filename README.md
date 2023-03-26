@@ -9,7 +9,13 @@
   WebGL2 for Computer Graphic 2022/2023 Class Projects
 </p>
 <p align="center">
-    by Adyatma Wijaksara Aryaputra Nugraha Yudha
+    by
+</p>
+<h6 align="center">
+    Adyatma Wijaksara Aryaputra Nugraha Yudha
+</h6>
+<p align="center">
+    2106750805
 </p>
 <p align="center">
     Link to the project Website: <a href="https://adyatmawan.github.io/Grafika-Komputer/">https://adyatmawan.github.io/Grafika-Komputer/</a>

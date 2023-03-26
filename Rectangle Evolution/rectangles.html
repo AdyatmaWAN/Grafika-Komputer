@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Common/layout.css">
+<title>Draw Multiple Rectangles</title>
+
+<!-- Modify from Rectangle2.html/JS to draw random multiple rectangles with random color -->
+<!-- Modify fragment shader so it can display rectangle with supplied color -->
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+
+in vec2 vPosition;
+uniform vec2 u_resolution;
+
+void
+main()
+{
+// convert the position from pixels to 0.0 to 1.0
+    vec2 zeroToOne = vPosition / u_resolution;
+	// convert from 0->1 to 0->2
+    vec2 zeroToTwo = zeroToOne * 2.0;
+	// convert from 0->2 to -1->+1 (clipspace)
+    vec2 clipSpace = zeroToTwo - 1.0;
+	gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+
+out vec4 FragColor;
+uniform vec4 u_color; //color variable
+
+void
+main()
+{
+    FragColor = u_color;
+}
+</script>
+
+<script src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="rectangles.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h2>Draw Multiple Rectangles</h2>
+    </div>
+    <div class="row">
+    <div class="center">
+        <canvas id="gl-canvas" width="800" height="600">
+        Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+    </div>
+    <div class="footer">
+        <h2>Grafika Komputer - Fasilkom UI</h2>
+    </div>
+</body>
+</html>

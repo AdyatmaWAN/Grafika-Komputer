@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../Common/layout.css">
+<title>Camera for 5 Letter F - 3D</title>
+
+<!-- Modification from transform-letterF-3D.html/JS -->
+<!-- now we use camera viewing -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec4 a_color;
+    
+uniform mat4 u_matrix;
+    
+out vec4 v_color;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_matrix * a_position;
+
+  // Pass the color to the fragment shader.
+  v_color = a_color;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+precision mediump float;
+
+// Passed in from the vertex shader.
+in vec4 v_color;
+out vec4 FragColor;
+
+void main() {
+   FragColor = v_color;
+}
+</script>
+
+<script src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="camera-letterF-3D.js"></script>
+
+
+</head>
+
+<body> 
+
+<div class="header">
+    <h2>3D Letter F Camera </h2>
+</div>
+<div class="row">
+    <div class="leftcolumn">
+        <canvas id="gl-canvas" width="800" height="600">
+        Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+    <div class="rightcolumn" id="slidercontainer" > 
+		Camera Angle <input id="sliderCam" type="range" min="-360" max="360" step="5" value="0" /> <span id="Cameravalue"> </span> <br>
+	</div>
+</div>
+<div class="footer">
+	<h2>Grafika Komputer - Fasilkom UI</h2>
+</div>
+
+
+</body>
+</html>

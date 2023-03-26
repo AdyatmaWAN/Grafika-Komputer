@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../Common/layout.css">
+<title>Letter F with Point Lighting</title>
+
+<!-- Modification from dirlight-letterF-3D.html/JS -->
+<!-- now we use point lighting -->
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+in vec4 a_position;
+in vec3 a_normal; //change color to normal vector
+
+uniform vec3 u_lightWorldPosition;
+
+uniform mat4 u_world;
+uniform mat4 u_worldViewProjection;
+uniform mat4 u_worldInverseTranspose;
+
+out vec3 v_normal;
+out vec3 v_surfaceToLight;
+
+void main() {
+  // Multiply the position by the matrix.
+  gl_Position = u_worldViewProjection * a_position;
+
+  // orient the normals and pass to the fragment shader
+  v_normal = mat3(u_worldInverseTranspose) * a_normal;
+
+  // compute the world position of the surfoace
+  vec3 surfaceWorldPosition = (u_world * a_position).xyz;
+
+  // compute the vector of the surface to the light
+  // and pass it to the fragment shader
+  v_surfaceToLight = u_lightWorldPosition - surfaceWorldPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+
+// Passed in from the vertex shader.
+in vec3 v_normal;
+in vec3 v_surfaceToLight;
+
+uniform vec4 u_color;
+
+out vec4 FragColor;
+
+void main() {
+  // because v_normal is a varying it's interpolated
+  // we it will not be a uint vector. Normalizing it
+  // will make it a unit vector again
+  vec3 normal = normalize(v_normal);
+
+  vec3 surfaceToLightDirection = normalize(v_surfaceToLight);
+
+  float light = dot(normal, surfaceToLightDirection);
+
+  FragColor = u_color;
+
+  // Lets multiply just the color portion (not the alpha)
+  // by the light
+  FragColor.rgb *= light;
+}
+</script>
+
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MVNew.js"></script>
+<script type="text/javascript" src="m4.js"></script>
+<script type="text/javascript" src="pointlight-letterF-3D.js"></script>
+
+
+</head>
+
+<body> 
+
+  <div class="header">
+    <h2> Letter F - Point Lighting </h2>
+  </div>
+  
+  <div class="row">
+    <div class="leftcolumn">
+        <canvas id="gl-canvas" width="800" height="600">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+    </div>
+
+    <div class="rightcolumn" id="slidercontainer">
+      F Rotation <input id="sliderCam" type="range" min="-360" max="360" step="1" value="0" /> <span id="Cameravalue"> </span> <br>
+    </div>
+  </div>
+
+
+<div class="footer">
+<h2>Grafika Komputer - Fasilkom UI</h2>
+</div>
+
+</body>
+</html>
