@@ -201,7 +201,7 @@ function render()
 	gl.uniformMatrix4fv(worldLocation, false, worldMatrix);
 	
     // Set the color to use
-    gl.uniform4fv(colorLocation, [0.2, 1, 0.2, 1]); // green
+    gl.uniform4fv(colorLocation, [0, 0, 1, 1]); // biru
 
     // set the light position.
 	lightPosition = [40, 60, 120];
@@ -216,7 +216,7 @@ function render()
     // set the spotlight uniforms
 
     // since we don't have a plane like most spotlight examples
-    // let's point the spot light at the F
+    // let's point the spotlight at the F
     {
         var lmat = m4.lookAt(lightPosition, fPosition, UpVector);
         lmat = m4.multiply(m4.xRotation(lightRotationX), lmat);
@@ -229,10 +229,13 @@ function render()
     gl.uniform3fv(lightDirectionLocation, lightDirection);
     gl.uniform1f(innerLimitLocation, Math.cos(innerLimit));
     gl.uniform1f(outerLimitLocation, Math.cos(outerLimit));
-	
+
 	gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	gl.drawArrays( primitiveType, offset, count );
+    gl.uniform4fv(colorLocation, [0, 0, 1, 1]); // red
+    gl.drawArrays( primitiveType, offset, 90 );
+    gl.uniform4fv(colorLocation, [1, 0, 0, 1]); // red
+    gl.drawArrays( primitiveType, offset, 126 );
 
 }
 

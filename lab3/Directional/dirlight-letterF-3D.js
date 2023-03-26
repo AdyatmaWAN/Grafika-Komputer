@@ -5,7 +5,7 @@ var gl;
 
 var primitiveType;
 var offset = 0;
-var count = 96;
+var count = 126;
 	
 
 var angleCam = 0;
@@ -139,15 +139,17 @@ function render()
     gl.uniformMatrix4fv(worldViewProjectionLocation, false, worldViewProjectionMatrix);
     gl.uniformMatrix4fv(worldInverseTransposeLocation, false, worldInverseTransposeMatrix);
 
-    // Set the color to use
-    gl.uniform4fv(colorLocation, [0.2, 1, 0.2, 1]); // green
-
     // set the light direction.
     gl.uniform3fv(reverseLightDirectionLocation, m4.normalize([0.5, 0.7, 1]));
-	
+
+    // Set the color to use
+
 	gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-	gl.drawArrays( primitiveType, offset, count );
+    gl.uniform4fv(colorLocation, [0, 0, 1, 1]); // red
+	gl.drawArrays( primitiveType, offset, 90 );
+    gl.uniform4fv(colorLocation, [1, 0, 0, 1]); // red
+    gl.drawArrays( primitiveType, offset, 126 );
 
 }
 
@@ -165,124 +167,76 @@ function setGeometry(gl) {
    var positions =
       new Float32Array([
           // left column front
-          0,   0,  0,
-          0, 150,  0,
-          30,   0,  0,
-          0, 150,  0,
+          0,   0,   0,
+          0,  150,  0,
+          30,  0,   0,
+          0,  150,  0,
           30, 150,  0,
-          30,   0,  0,
+          30,  0,   0,
 
-          // top rung front
-          30,   0,  0,
-          30,  30,  0,
-          100,   0,  0,
-          30,  30,  0,
-          100,  30,  0,
-          100,   0,  0,
-
-          // middle rung front
-          30,  60,  0,
-          30,  90,  0,
-          67,  60,  0,
-          30,  90,  0,
-          67,  90,  0,
-          67,  60,  0,
+          //rung front
+          30,   120,  0,
+          30,   150,  0,
+          100,  120,  0,
+          30,   150,  0,
+          100,  150,  0,
+          100,  120,  0,
 
           // left column back
-            0,   0,  30,
-           30,   0,  30,
-            0, 150,  30,
-            0, 150,  30,
-           30,   0,  30,
-           30, 150,  30,
+          0,   0,  30,
+          30,   0,  30,
+          0, 150,  30,
+          0, 150,  30,
+          30,   0,  30,
+          30, 150,  30,
 
-          // top rung back
-           30,   0,  30,
-          100,   0,  30,
-           30,  30,  30,
-           30,  30,  30,
-          100,   0,  30,
-          100,  30,  30,
-
-          // middle rung back
-           30,  60,  30,
-           67,  60,  30,
-           30,  90,  30,
-           30,  90,  30,
-           67,  60,  30,
-           67,  90,  30,
+          // rung back
+          30,   120,  30,
+          100,   120,  30,
+          30,  150,  30,
+          30,  150,  30,
+          100,   120,  30,
+          100,  150,  30,
 
           // top
-            0,   0,   0,
-          100,   0,   0,
-          100,   0,  30,
-            0,   0,   0,
-          100,   0,  30,
-            0,   0,  30,
+          0,    0,   0,
+          30,   0,   0,
+          30,   0,  30,
+          0,    0,   0,
+          30,   0,  30,
+          0,    0,  30,
 
-          // top rung right
-          100,   0,   0,
-          100,  30,   0,
-          100,  30,  30,
-          100,   0,   0,
-          100,  30,  30,
-          100,   0,  30,
+          // rung right
+          100,  120,   0,
+          100,  150,   0,
+          100,  150,  30,
+          100,  120,   0,
+          100,  150,  30,
+          100,  120,  30,
 
           // under top rung
-          30,   30,   0,
-          30,   30,  30,
-          100,  30,  30,
-          30,   30,   0,
-          100,  30,  30,
-          100,  30,   0,
+          30,   120,   0,
+          100,  120,  30,
+          30,   120,  30,
+          30,   120,   0,
+          100,  120,   0,
+          100,  120,  30,
 
-          // between top rung and middle
-          30,   30,   0,
-          30,   60,  30,
-          30,   30,  30,
-          30,   30,   0,
-          30,   60,   0,
-          30,   60,  30,
-
-          // top of middle rung
-          30,   60,   0,
-          67,   60,  30,
-          30,   60,  30,
-          30,   60,   0,
-          67,   60,   0,
-          67,   60,  30,
-
-          // right of middle rung
-          67,   60,   0,
-          67,   90,  30,
-          67,   60,  30,
-          67,   60,   0,
-          67,   90,   0,
-          67,   90,  30,
-
-          // bottom of middle rung.
-          30,   90,   0,
-          30,   90,  30,
-          67,   90,  30,
-          30,   90,   0,
-          67,   90,  30,
-          67,   90,   0,
-
-          // right of bottom
-          30,   90,   0,
-          30,  150,  30,
-          30,   90,  30,
-          30,   90,   0,
-          30,  150,   0,
-          30,  150,  30,
+          // between top and rung
+          30,   0,   0,
+          30,   120,  30,
+          30,   0,  30,
+          30,   0,   0,
+          30,   120,   0,
+          30,   120,  30,
 
           // bottom
           0,   150,   0,
           0,   150,  30,
-          30,  150,  30,
+          130,  150,  30,
           0,   150,   0,
-          30,  150,  30,
-          30,  150,   0,
+          130,  150,  30,
+          130,  150,   0,
 
           // left side
           0,   0,   0,
@@ -290,7 +244,95 @@ function setGeometry(gl) {
           0, 150,  30,
           0,   0,   0,
           0, 150,  30,
-          0, 150,   0]);
+          0, 150,   0,
+
+          //top right
+          100,    0,   0,
+          130,   0,   0,
+          130,   0,  30,
+          100,    0,   0,
+          130,   0,  30,
+          100,    0,  30,
+
+          //right side
+          130,  0,   0,
+          130,  150,   0,
+          130,  150,  30,
+          130,  0,   0,
+          130,  150,  30,
+          130,  0,  30,
+
+          // right column front
+          100,   0,   0,
+          100,  150,  0,
+          130,  0,   0,
+          100,  150,  0,
+          130, 150,  0,
+          130,  0,   0,
+
+          // left column back
+          100,   0,  30,
+          130,   0,  30,
+          100, 150,  30,
+          100, 150,  30,
+          130,   0,  30,
+          130, 150,  30,
+
+          // between top and rung
+          100,   0,   0,
+          100,   0,  30,
+          100, 150,  30,
+          100,   0,   0,
+          100, 150,  30,
+          100, 150,   0,
+
+          //top right
+          150,    0,   0,
+          180,   0,   0,
+          180,   0,  30,
+          150,    0,   0,
+          180,   0,  30,
+          150,    0,  30,
+
+          //right side
+          180,  0,   0,
+          180,  150,   0,
+          180,  150,  30,
+          180,  0,   0,
+          180,  150,  30,
+          180,  0,  30,
+
+          // right column front
+          150,   0,   0,
+          150,  150,  0,
+          180,  0,   0,
+          150,  150,  0,
+          180, 150,  0,
+          180,  0,   0,
+
+          // left column back
+          150,   0,  30,
+          180,   0,  30,
+          150, 150,  30,
+          150, 150,  30,
+          180,   0,  30,
+          180, 150,  30,
+
+          // between top and rung
+          150,   0,   0,
+          150,   0,  30,
+          150, 150,  30,
+          150,   0,   0,
+          150, 150,  30,
+          150, 150,   0,
+
+          //bottom
+          150,  150,   0,
+          180,  150,   0,
+          180,  150,  30,
+          150,  150,   0,
+          180,  150,  30,
+          150,  150,  30,]);
 
   // Center the F around the origin and Flip it around. We do this because
   // we're in 3D now with and +Y is up where as before when we started with 2D
@@ -300,7 +342,7 @@ function setGeometry(gl) {
   // We could also do it with a matrix at draw time but you should
   // never do stuff at draw time if you can do it at init time.
   var matrix = m4.xRotation(Math.PI),
-  matrix = m4.translate(matrix, -50, -75, -15);
+  matrix = m4.translate(matrix, -100, -75, -15);
 
   for (var ii = 0; ii < positions.length; ii += 3) {
     var vector = m4.transformPoint(matrix, [positions[ii + 0], positions[ii + 1], positions[ii + 2], 1]);
@@ -313,132 +355,171 @@ function setGeometry(gl) {
 
 function setNormals(gl) {
   var normals = new Float32Array([
-          // left column front
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
+      // left column front
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
 
-          // top rung front
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
+      // top rung front
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
 
-          // middle rung front
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
-          0, 0, 1,
+      // left column back
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
 
-          // left column back
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
+      // top rung back
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
 
-          // top rung back
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
+      // top
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
 
-          // middle rung back
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
-          0, 0, -1,
+      // right
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
 
-          // top
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
+      // under
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
 
-          // top rung right
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
+      // between top rung and middle
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
 
-          // under top rung
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
+      // bottom
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
 
-          // between top rung and middle
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
+      // left side
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
 
-          // top of middle rung
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
-          0, 1, 0,
+      // top right
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
 
-          // right of middle rung
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
+      // right side
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
 
-          // bottom of middle rung.
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
+      // right column front
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
 
-          // right of bottom
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
-          1, 0, 0,
+      // right column back
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
 
-          // bottom
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
-          0, -1, 0,
+      // between top and rung
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
 
-          // left side
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0,
-          -1, 0, 0]);
+      // top right
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+
+      // right side
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+
+      // right column front
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+
+      // right column back
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+
+      // between top and rung
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,]);
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
 }
