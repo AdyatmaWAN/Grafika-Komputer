@@ -5,7 +5,7 @@ var gl;
 
 var primitiveType;
 var offset = 0;
-var count = 96;
+var count = 126;
 	
 
 var angleCam = 0;
@@ -368,6 +368,54 @@ function setGeometry(gl) {
           100,   0,   0,
           100, 150,  30,
           100, 150,   0,
+
+          //top right
+          150,    0,   0,
+          180,   0,   0,
+          180,   0,  30,
+          150,    0,   0,
+          180,   0,  30,
+          150,    0,  30,
+
+          //right side
+          180,  0,   0,
+          180,  150,   0,
+          180,  150,  30,
+          180,  0,   0,
+          180,  150,  30,
+          180,  0,  30,
+
+          // right column front
+          150,   0,   0,
+          150,  150,  0,
+          180,  0,   0,
+          150,  150,  0,
+          180, 150,  0,
+          180,  0,   0,
+
+          // left column back
+          150,   0,  30,
+          180,   0,  30,
+          150, 150,  30,
+          150, 150,  30,
+          180,   0,  30,
+          180, 150,  30,
+
+          // between top and rung
+          150,   0,   0,
+          150,   0,  30,
+          150, 150,  30,
+          150,   0,   0,
+          150, 150,  30,
+          150, 150,   0,
+
+          //bottom
+          150,  150,   0,
+          180,  150,   0,
+          180,  150,  30,
+          150,  150,   0,
+          180,  150,  30,
+          150,  150,  30,
       ]);
 
   // Center the F around the origin and Flip it around. We do this because
@@ -378,7 +426,7 @@ function setGeometry(gl) {
   // We could also do it with a matrix at draw time but you should
   // never do stuff at draw time if you can do it at init time.
   var matrix = m4.xRotation(Math.PI),
-  matrix = m4.translate(matrix, -50, -75, -15);
+  matrix = m4.translate(matrix, -100, -75, -15);
 
   for (var ii = 0; ii < positions.length; ii += 3) {
     var vector = m4.transformPoint(matrix, [positions[ii + 0], positions[ii + 1], positions[ii + 2], 1]);
@@ -510,6 +558,53 @@ function setNormals(gl) {
       -1, 0, 0,
       -1, 0, 0,
       -1, 0, 0,
+
+      // top right
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+      0, 1, 0,
+
+      // right side
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+      1, 0, 0,
+
+      // right column front
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+      0, 0, 1,
+
+      // right column back
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+      0, 0, -1,
+
+      // between top and rung
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+      -1, 0, 0,
+
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
+      0, -1, 0,
 
   ]);
   gl.bufferData(gl.ARRAY_BUFFER, normals, gl.STATIC_DRAW);
