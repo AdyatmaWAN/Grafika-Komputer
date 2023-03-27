@@ -107,7 +107,7 @@ window.onload = function init()
 	//update FOV
 	var angleCamValue = document.getElementById("Cameravalue");
 	angleCamValue.innerHTML = angleCam;
-	document.getElementById("sliderCam").onchange = function(event) {		
+	document.getElementById("sliderCam").oninput = function(event) {		
 	    angleCamValue.innerHTML = event.target.value;
 		fRotationRadians = degToRad(event.target.value);
 		render();
@@ -148,7 +148,8 @@ function render()
 	
 	gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    gl.uniform4fv(colorLocation, [0, 0, 1, 1]); // red
+    //menggambar 2 warna
+    gl.uniform4fv(colorLocation, [0, 0, 1, 1]); // biru
     gl.drawArrays( primitiveType, offset, 90 );
     gl.uniform4fv(colorLocation, [1, 0, 0, 1]); // red
     gl.drawArrays( primitiveType, offset, 126 );
@@ -168,7 +169,7 @@ function degToRad(d) {
 function setGeometry(gl) {
    var positions =
       new Float32Array([
-          // left column front
+          // kolom kiri depan
           0,   0,   0,
           0,  150,  0,
           30,  0,   0,
@@ -176,7 +177,7 @@ function setGeometry(gl) {
           30, 150,  0,
           30,  0,   0,
 
-          //rung front
+          // horizontal depan
           30,   120,  0,
           30,   150,  0,
           100,  120,  0,
@@ -184,7 +185,7 @@ function setGeometry(gl) {
           100,  150,  0,
           100,  120,  0,
 
-          // left column back
+          // kolom kiri belakang
           0,   0,  30,
           30,   0,  30,
           0, 150,  30,
@@ -192,15 +193,15 @@ function setGeometry(gl) {
           30,   0,  30,
           30, 150,  30,
 
-          // rung back
+          // horizontal belakang
           30,   120,  30,
           100,   120,  30,
-          30,  150,  30,
-          30,  150,  30,
+          30,   150,  30,
+          30,   150,  30,
           100,   120,  30,
-          100,  150,  30,
+          100,   150,  30,
 
-          // top
+          // atas
           0,    0,   0,
           30,   0,   0,
           30,   0,  30,
@@ -208,7 +209,7 @@ function setGeometry(gl) {
           30,   0,  30,
           0,    0,  30,
 
-          // rung right
+          // horizontal kanan
           100,  120,   0,
           100,  150,   0,
           100,  150,  30,
@@ -216,7 +217,7 @@ function setGeometry(gl) {
           100,  150,  30,
           100,  120,  30,
 
-          // under top rung
+          // horizontal atas
           30,   120,   0,
           100,  120,  30,
           30,   120,  30,
@@ -224,7 +225,7 @@ function setGeometry(gl) {
           100,  120,   0,
           100,  120,  30,
 
-          // between top and rung
+          // sisi dalam
           30,   0,   0,
           30,   120,  30,
           30,   0,  30,
@@ -232,7 +233,7 @@ function setGeometry(gl) {
           30,   120,   0,
           30,   120,  30,
 
-          // bottom
+          // bawah
           0,   150,   0,
           0,   150,  30,
           130,  150,  30,
@@ -240,7 +241,7 @@ function setGeometry(gl) {
           130,  150,  30,
           130,  150,   0,
 
-          // left side
+          // sisi kiri
           0,   0,   0,
           0,   0,  30,
           0, 150,  30,
@@ -248,7 +249,7 @@ function setGeometry(gl) {
           0, 150,  30,
           0, 150,   0,
 
-          //top right
+          //atas
           100,    0,   0,
           130,   0,   0,
           130,   0,  30,
@@ -256,7 +257,7 @@ function setGeometry(gl) {
           130,   0,  30,
           100,    0,  30,
 
-          //right side
+          //sisi kanan
           130,  0,   0,
           130,  150,   0,
           130,  150,  30,
@@ -264,7 +265,7 @@ function setGeometry(gl) {
           130,  150,  30,
           130,  0,  30,
 
-          // right column front
+          // kolom kanan depan
           100,   0,   0,
           100,  150,  0,
           130,  0,   0,
@@ -272,7 +273,7 @@ function setGeometry(gl) {
           130, 150,  0,
           130,  0,   0,
 
-          // left column back
+          // kolom kanan belakang
           100,   0,  30,
           130,   0,  30,
           100, 150,  30,
@@ -280,7 +281,7 @@ function setGeometry(gl) {
           130,   0,  30,
           130, 150,  30,
 
-          // between top and rung
+          // sisi dalam
           100,   0,   0,
           100,   0,  30,
           100, 150,  30,
@@ -288,7 +289,7 @@ function setGeometry(gl) {
           100, 150,  30,
           100, 150,   0,
 
-          //top right
+          //atas
           150,    0,   0,
           180,   0,   0,
           180,   0,  30,
@@ -296,7 +297,7 @@ function setGeometry(gl) {
           180,   0,  30,
           150,    0,  30,
 
-          //right side
+          //kolom i kanan
           180,  0,   0,
           180,  150,   0,
           180,  150,  30,
@@ -304,7 +305,7 @@ function setGeometry(gl) {
           180,  150,  30,
           180,  0,  30,
 
-          // right column front
+          // kolom i depan
           150,   0,   0,
           150,  150,  0,
           180,  0,   0,
@@ -312,7 +313,7 @@ function setGeometry(gl) {
           180, 150,  0,
           180,  0,   0,
 
-          // left column back
+          // kolom i belakang
           150,   0,  30,
           180,   0,  30,
           150, 150,  30,
@@ -320,7 +321,7 @@ function setGeometry(gl) {
           180,   0,  30,
           180, 150,  30,
 
-          // between top and rung
+          // kolom i kiri
           150,   0,   0,
           150,   0,  30,
           150, 150,  30,
@@ -328,7 +329,7 @@ function setGeometry(gl) {
           150, 150,  30,
           150, 150,   0,
 
-          //bottom
+          //kolom i bawah
           150,  150,   0,
           180,  150,   0,
           180,  150,  30,
@@ -357,7 +358,7 @@ function setGeometry(gl) {
 
 function setNormals(gl) {
   var normals = new Float32Array([
-      // left column front
+      // kolom kiri depan
       0, 0, 1,
       0, 0, 1,
       0, 0, 1,
@@ -365,7 +366,7 @@ function setNormals(gl) {
       0, 0, 1,
       0, 0, 1,
 
-      // top rung front
+      // horizontal depan
       0, 0, 1,
       0, 0, 1,
       0, 0, 1,
@@ -373,7 +374,7 @@ function setNormals(gl) {
       0, 0, 1,
       0, 0, 1,
 
-      // left column back
+      // kolom kiri belakang
       0, 0, -1,
       0, 0, -1,
       0, 0, -1,
@@ -381,7 +382,7 @@ function setNormals(gl) {
       0, 0, -1,
       0, 0, -1,
 
-      // top rung back
+      // horizontal belakang
       0, 0, -1,
       0, 0, -1,
       0, 0, -1,
@@ -389,7 +390,7 @@ function setNormals(gl) {
       0, 0, -1,
       0, 0, -1,
 
-      // top
+      // atas
       0, 1, 0,
       0, 1, 0,
       0, 1, 0,
@@ -397,7 +398,7 @@ function setNormals(gl) {
       0, 1, 0,
       0, 1, 0,
 
-      // right
+      // horizontal kanan
       1, 0, 0,
       1, 0, 0,
       1, 0, 0,
@@ -405,7 +406,7 @@ function setNormals(gl) {
       1, 0, 0,
       1, 0, 0,
 
-      // under
+      // horizontal atas
       0, 1, 0,
       0, 1, 0,
       0, 1, 0,
@@ -413,7 +414,7 @@ function setNormals(gl) {
       0, 1, 0,
       0, 1, 0,
 
-      // between top rung and middle
+      // sisi dalam
       1, 0, 0,
       1, 0, 0,
       1, 0, 0,
@@ -421,7 +422,7 @@ function setNormals(gl) {
       1, 0, 0,
       1, 0, 0,
 
-      // bottom
+      // bawah
       0, -1, 0,
       0, -1, 0,
       0, -1, 0,
@@ -429,7 +430,7 @@ function setNormals(gl) {
       0, -1, 0,
       0, -1, 0,
 
-      // left side
+      // sisi kiri
       -1, 0, 0,
       -1, 0, 0,
       -1, 0, 0,
@@ -437,7 +438,7 @@ function setNormals(gl) {
       -1, 0, 0,
       -1, 0, 0,
 
-      // top right
+      // atas
       0, 1, 0,
       0, 1, 0,
       0, 1, 0,
@@ -445,7 +446,7 @@ function setNormals(gl) {
       0, 1, 0,
       0, 1, 0,
 
-      // right side
+      // sisi kanan
       1, 0, 0,
       1, 0, 0,
       1, 0, 0,
@@ -453,7 +454,7 @@ function setNormals(gl) {
       1, 0, 0,
       1, 0, 0,
 
-      // right column front
+      // kolom kanan depan
       0, 0, 1,
       0, 0, 1,
       0, 0, 1,
@@ -461,7 +462,7 @@ function setNormals(gl) {
       0, 0, 1,
       0, 0, 1,
 
-      // right column back
+      // kolom kanan belakang
       0, 0, -1,
       0, 0, -1,
       0, 0, -1,
@@ -469,7 +470,7 @@ function setNormals(gl) {
       0, 0, -1,
       0, 0, -1,
 
-      // between top and rung
+      // sisi dalam
       -1, 0, 0,
       -1, 0, 0,
       -1, 0, 0,
@@ -477,7 +478,7 @@ function setNormals(gl) {
       -1, 0, 0,
       -1, 0, 0,
 
-      // top right
+      // atas
       0, 1, 0,
       0, 1, 0,
       0, 1, 0,
@@ -485,7 +486,7 @@ function setNormals(gl) {
       0, 1, 0,
       0, 1, 0,
 
-      // right side
+      // kolom i kanan
       1, 0, 0,
       1, 0, 0,
       1, 0, 0,
@@ -493,7 +494,7 @@ function setNormals(gl) {
       1, 0, 0,
       1, 0, 0,
 
-      // right column front
+      // kolom i depan
       0, 0, 1,
       0, 0, 1,
       0, 0, 1,
@@ -501,7 +502,7 @@ function setNormals(gl) {
       0, 0, 1,
       0, 0, 1,
 
-      // right column back
+      // kolom i belakang
       0, 0, -1,
       0, 0, -1,
       0, 0, -1,
@@ -509,7 +510,7 @@ function setNormals(gl) {
       0, 0, -1,
       0, 0, -1,
 
-      // between top and rung
+      // kolom i kiri
       -1, 0, 0,
       -1, 0, 0,
       -1, 0, 0,
@@ -517,6 +518,7 @@ function setNormals(gl) {
       -1, 0, 0,
       -1, 0, 0,
 
+      //bawah i
       0, -1, 0,
       0, -1, 0,
       0, -1, 0,
