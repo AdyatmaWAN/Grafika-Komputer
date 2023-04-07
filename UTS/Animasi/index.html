@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafika Komputer - Worksheet 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://avatars.githubusercontent.com/u/88027979?s=400&u=272b0b8a50ab291b43fcff8788fc6b014d30e64c&v=4">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+
+</head>
+<header>
+    <nav aria-label="breadcrumbs" class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+            <a class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/WebGL_Logo.svg" class="mr-3 h-6 sm:h-9" alt="WebGL" />
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Welcome to Computer Graphics 2022/2023</span>
+            </a>
+            <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+<!--                    <li>-->
+<!--                        <a href="https://github.com/AdyatmaWAN/Grafika-Komputer" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Adyatma Wijaksara Aryaputra Nugraha Yudha</a>-->
+<!--                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<body class = "dark:bg-gray-900">
+
+    <nav class="flex pt-2 px-10" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="../index.html" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    Index
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <a href="" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">UTS - Animasi/Game Primitif</a>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class = "container mx-auto py-2.5 space-y-4 flex flex-row justify-center space-x-10">
+
+        <div class=" flex flex-col py-4 space-y-10">
+
+        </div>
+
+        <div>
+            <canvas id="gl-canvas" width="718" height="718"></canvas>
+        </div>
+        <div class="flex flex-col py-4 space-y-10">
+
+        </div>
+
+    </div>
+</body>
+
+<footer class="p-4 bg-white rounded-lg shadow md:px-6 md:py-8 dark:bg-gray-800 w-screen fixed bottom-0">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://github.com/AdyatmaWAN" class="hover:underline">Adyatma™</a>. All Rights Reserved.
+        </span>
+        <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
+            <li>
+                <a href="https://github.com/https://github.com/AdyatmaWAN/Grafika-Komputer" class="mr-4 hover:underline md:mr-6 ">About</a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+
+in vec4 aPosition;
+in vec4 aColor;
+uniform float uTheta;
+
+out vec4 vColor;
+
+void main()
+{
+    float s = sin(uTheta);
+    float c = cos(uTheta);
+
+    gl_Position.x = -s*aPosition.y + c*aPosition.x;
+    gl_Position.y =  s*aPosition.x + c*aPosition.y;
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0;
+    vColor = aColor;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+
+in vec4 vColor;
+out vec4 fColor;
+
+void main()
+{
+    fColor = vColor;
+}
+</script>
+
+<script src="../../Common/initShaders.js"></script>
+<script src="../../Common/MVnew.js"></script>
+<script src="gl.js"></script>
+<script src="render.js"></script>
+<script src="var.js"></script>
+
+
+</html>
+
